@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages # used to send message to frontend
-from .models import Profile, Post, LikePost, Follower
+from .models import Profile, Post, LikePost, Follower, Comment
 from django.contrib.auth.decorators import login_required #only open pages if login
 from django.contrib.auth import get_user_model
 from itertools import chain
 import random 
+
 
 User = get_user_model()
 # Create your views here.
@@ -60,7 +61,10 @@ def index(request):
     suggestions_username_profile_list = list(chain(*username_profile_list))
     
     
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list ,'img_list':img_list,'suggestions_profile':suggestions_username_profile_list[:3] } )
+    comment_feed = Comment.objects.all()
+    
+    
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list ,'img_list':img_list,'suggestions_profile':suggestions_username_profile_list[:3], 'comment_feed':comment_feed } )
 
 
 def signup(request):
@@ -309,3 +313,21 @@ def search(request):
         username_profile_list = list(chain(*username_profile_list))
         
     return  render(request, 'search.html',{'profile_list':username_profile_list,'user_profile':user_profile})
+
+@login_required(login_url='signin')
+def commenting(request):
+    
+    if request.method == 'POST':
+        comment=request.POST['comment']
+        poster = request.POST['poster']
+        commenter = request.POST['commenter']
+        post_id= request.POST['post_id']
+        
+        if len(comment)==0:
+            messages.info(request, 'Enter a Comment First')
+            return redirect('/')
+        else:
+            new_comment = Comment.objects.create(poster=poster, commenter=commenter, comment=comment , post_id = post_id)
+            new_comment.save()
+    
+    return redirect('/')

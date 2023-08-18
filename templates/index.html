@@ -307,23 +307,58 @@
                                     </div>
                                 </div>
 
-                                {% comment %} <div class="border-t pt-4 space-y-4 ">
-                                    <div class="flex">
-                                        
-                                    </div>
-                                    <div class="flex">
-                                        
-                                    </div>
-                                </div> {% endcomment %}
-
-                                {% comment %} <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
-                                    <input type="text" placeholder="post a comment" class="bg-transparent max-h-10 shadow-none">
+                                <div class="border-t pt-4 space-y-4 ">
+                                 
+                                    {% for comments in comment_feed %}
+                                        {% if post.id|stringformat:"s" ==  comments.post_id %}
+                                            <div class="flex">
+                                                <div class="w-10 h-10 rounded-full relative flex-shrink-0">
+                                                    {% comment %} {% set stop_loop="" %} {% endcomment %}
+                                                    {% for prof in img_list %}
+                                                    {% if prof.user.username == comment.commenter  %}
+                                                    <img src="{{prof.profileimg.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                    
+                                                    {% elif user_profile.user.user == comment.commenter  %}
+                                                    <img src="{{user_profile.profileimg.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    
+                                                    {% comment %} <img src="{{}}" alt="" class="absolute h-full rounded-full w-full"> {% endcomment %}
+                                                </div>
+                                                <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20   ">
+                                                    <p class="leading-6">{{comments.comment}}
+                                                    </p>
+                            
+                                                    <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 "></div>
+                                                </div>
+                                            </div>
+                                     {% endif %}
+                                    {% endfor %}
+                                </div> 
+                                <form action="/commenting" method='POST'>
+                                    {% csrf_token %}
+                                 <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
+                                     
+                                    <input type="text" name='comment' placeholder="post a comment" class="bg-transparent max-h-10 shadow-none">
+                                    <input type='hidden' value = '{{post.user}}' name='poster' />
+                                    <input type='hidden' value = '{{user.username}}' name='commenter' />
+                                    <input type='hidden' value = '{{post.id}}' name='post_id' />
                                     <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
-                                        <a href="#"> <i class="uil-image"></i></a>
-                                        <a href="#"> <i class="uil-video"></i></a>
+                              
+                                        <a > <button type='submit' style="background-color: #ffc0cb; border: #ffc0cb;"><i class="uil-arrow"></i></button></a>
+                                        </form>
+                                        
                                     </div>
-                                </div> {% endcomment %}
-    
+                                    
+                                </div> 
+                                <style>
+                                    h6{
+                                        color: red;
+                                    }
+                                </style>
+                                {% for message in messages %}
+                                <h6>{{message}}</h6>
+                                {%endfor%} 
                             </div>
     
                         </div>

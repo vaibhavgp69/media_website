@@ -25,7 +25,6 @@ class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.CharField(max_length=100)
     image = models.ImageField(upload_to='post_images')
-    profileimg=Profile.profileimg
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
@@ -48,3 +47,13 @@ class Follower(models.Model):
     
     def __str__(self):
         return self.follower + " started to follow : " + self.user
+    
+class Comment(models.Model):
+    poster = models.CharField(max_length=100)
+    post_id = models.CharField(max_length=100)
+    commenter = models.CharField(max_length=100)
+    comment = models.CharField(max_length=500)
+    
+    def __str__(self):
+        return self.commenter + " commented on :  " + self.poster + " ---> post_id = " + self.post_id
+    
