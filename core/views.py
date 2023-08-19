@@ -63,9 +63,10 @@ def index(request):
     
     
     comment_feed = Comment.objects.all()
+    all_profiles = Profile.objects.all()
     
     
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list ,'img_list':img_list,'suggestions_profile':suggestions_username_profile_list[:3], 'comment_feed':comment_feed } )
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list ,'img_list':img_list,'suggestions_profile':suggestions_username_profile_list[:3], 'comment_feed':comment_feed, 'all_profiles':all_profiles } )
 
 
 def signup(request):

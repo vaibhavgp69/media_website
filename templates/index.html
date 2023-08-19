@@ -313,12 +313,16 @@
                                             <div class="flex">
                                                 <div class="w-10 h-10 rounded-full relative flex-shrink-0">
                                                     {% comment %}  {% endcomment %}
-                                                    {% for prof in img_list %}
+                                                    {% for prof in all_profiles %}
                                                     {% if user_profile.user.username == comments.commenter  and statement == 1 %}
+                                                    <a href='/profile/{{user_profile.user.username}}'>
                                                     <img src="{{user_profile.profileimg.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                    </a>
                                                     {% changeStatement statement as statement %}
                                                     {% elif prof.user.username == comments.commenter and statement == 1 %}
+                                                    <a href='/profile/{{prof.user.username}}'>
                                                     <img src="{{prof.profileimg.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                    </a>
                                                     {% changeStatement statement as statement %}
                                                     {% endif %}
                                                     {% endfor %}
