@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required #only open pages if lo
 from django.contrib.auth import get_user_model
 from itertools import chain
 import random 
+import uuid
 
 
 User = get_user_model()
@@ -268,6 +269,7 @@ def profile(request, pk):
         'button_text' : button_text,
         'user_followers' :user_followers,
         'user_following' : user_following,
+        'follower' : follower,
         
     }
     return render(request, 'profile.html', context)
@@ -331,3 +333,25 @@ def commenting(request):
             new_comment.save()
     
     return redirect('/')
+
+@login_required(login_url='signin')
+def deletepost(request):
+    
+    if request.method == 'POST':
+        poster = request.POST['poster']
+        current_user = request.POST['current_user']
+        post_id = request.POST['post_id']
+        post_id = uuid.UUID(post_id)
+        post_filter = Post.objects.get(id=post_id)
+        if current_user == poster:
+            post_filter.delete()
+            
+        
+        
+        
+        
+    return redirect('/profile/'+poster)
+    
+
+
+    

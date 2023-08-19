@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
 </head>
+
 <body>
 <!--<div class="se-pre-con"></div>-->
 <div class="theme-layout">
@@ -145,6 +146,7 @@
 									<ul class="photos">
 					
 										{% for post in user_posts %}
+										
 										<li>
 											<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
 												<img src="{{post.image.url}}" style="height: 250px; width: 300px;" alt=""></a>
@@ -188,3 +190,43 @@
 
 
 </html>
+{% comment %} {% if post.user. == user_profile.user.username %}
+<form action="/deletepost" method="POST">
+  {% csrf_token %}
+
+  <input type='hidden' value = '{{post.user}}' name='poster' />
+  <input type='hidden' value = '{{user_profile.user.username}}' name='current_user' />
+  <input type='hidden' value = '{{post.id}}' name='post_id' />
+	<a  class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md ">
+	 <i class="uil-trash-alt mr-1"><button type='submit'>Delete Post</button></i>  
+	</a> 
+
+</form>
+{% endif %} {% endcomment %}
+
+
+{% comment %} {% if follower == user_profile.user.username %}
+										
+											
+											<div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  ">
+										  
+												<ul class="space-y-1">
+													
+														<form action="/deletepost" method="POST">
+														{% csrf_token %}
+
+														<input type='hidden' value = '{{post.user}}' name='poster' />
+														<input type='hidden' value = '{{follower}}' name='current_user' />
+														<input type='hidden' value = '{{post.id}}' name='post_id' />
+															<a  class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md "> 
+															<i class="uil-trash-alt mr-1"><button type='submit'>Delete Post</button></i>  
+															</a> 
+
+														</form>
+														
+										  
+												</ul>
+											
+											</div>
+											{% endif %}  {% endcomment %}
+										  
